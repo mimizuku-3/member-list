@@ -4,7 +4,6 @@ import { RouterLink } from 'vue-router';
 import { useMembersStore } from "@/stores/members";
 
 const membersStore = useMembersStore();
-membersStore.prepareMemberList();
 
 const memberList = computed(() => membersStore.memberList);
 const isEmptyList = computed(() => memberList.value.size === 0);
