@@ -32,7 +32,12 @@ const onAdd = (): void => {
           TOP
         </RouterLink>
       </li>
-      <li>会員リスト</li>
+      <li>
+        <RouterLink v-bind:to="{ name: 'MemberList' }">
+          会員リスト
+        </RouterLink>
+      </li>
+      <li>会員情報追加</li>
     </ul>
   </nav>
 
