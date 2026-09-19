@@ -10,10 +10,12 @@ describe('router', () => {
       'MemberList',
       'MemberDetail',
       'MemberAdd',
+      'NotFound',
     ]))
-    expect(routes).toHaveLength(4)
+    expect(routes).toHaveLength(5)
     expect(router.resolve({ name: 'MemberList' }).fullPath).toBe('/member/memberList')
     expect(router.resolve({ name: 'MemberDetail', params: { id: 2 } }).fullPath).toBe('/member/detail/2')
     expect(router.resolve({ name: 'MemberAdd' }).fullPath).toBe('/member/add')
+    expect(router.resolve('/unknown-page').name).toBe('NotFound')
   })
 })
