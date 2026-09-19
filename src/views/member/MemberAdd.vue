@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, reactive } from 'vue';
+import { reactive } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import type { Member } from "@/interfaces";
 import { useMembersStore } from "@/stores/members";
