@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, provide } from 'vue'
+import { provide } from 'vue'
 import { RouterView } from 'vue-router'
 import type { Member} from "@/interfaces";
 
