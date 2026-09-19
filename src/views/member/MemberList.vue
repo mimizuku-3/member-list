@@ -4,7 +4,10 @@ import { RouterLink } from 'vue-router';
 import { useMembersStore } from "@/stores/members";
 
 const membersStore = useMembersStore();
+membersStore.prepareMemberList();
+
 const memberList = computed(() => membersStore.memberList);
+const isEmptyList = computed(() => memberList.value.size === 0);
 
 </script>
 
@@ -29,7 +32,8 @@ const memberList = computed(() => membersStore.memberList);
     </p>
     <section>
       <ul>
-        <li v-for="[id, member] in memberList" 
+        <li v-if="isEmptyList">会員が存在しません。</li>
+        <li v-for="[id, member] in memberList"
         v-bind:key="id">
           <RouterLink v-bind:to="{ name: 'MemberDetail', params: { id } }">
             IDが{{ id }} {{ member.name }}さん

@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router'
-import { useMembersStore } from "@/stores/members";
-
-const membersStore = useMembersStore();
-membersStore.initList();
-</script>
-
-
 <template>
   <header>
     <h1>Piniaサンプル</h1>
