@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { inject,computed } from 'vue';
 import {RouterLink} from 'vue-router';
-import type { Member } from "@/interfaces";
+import { useMembersStore } from "@/stores/members";
+import type { Member } from '@/interfaces';
 
 interface Props {
   id: number;
 }
 
 const props = defineProps<Props>();
-const memberList = inject("memberList") as Map<number, Member>;
+const membersStore = useMembersStore();
+
 const member = computed(
   (): Member => {
-    return memberList.get(props.id) as Member;
+    return membersStore.getById(props.id) as Member;
   }
 );
 const localNote = computed(
   (): string => {
-    return memberList.get(props.id)?.note || "--";
+    return membersStore.getById(props.id)?.note || "--";
   }
 );
 </script>
