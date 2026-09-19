@@ -37,4 +37,29 @@ describe('useMembersStore', () => {
     expect(store.getById(3)).toEqual(member)
     expect(JSON.parse(sessionStorage.getItem('memberList')!)).toEqual([[3, member]])
   })
+
+  it('既存の会員を残したまま新しい会員を保存する', () => {
+    const store = useMembersStore()
+    const existingMember = {
+      id: 1,
+      name: '田中一郎',
+      email: 'tanaka@example.com',
+      points: 100,
+    }
+    const newMember = {
+      id: 2,
+      name: '鈴木花子',
+      email: 'suzuki@example.com',
+      points: 200,
+    }
+    store.memberList = new Map([[existingMember.id, existingMember]])
+
+    store.insertMember(newMember)
+
+    expect(store.memberList.size).toBe(2)
+    expect(JSON.parse(sessionStorage.getItem('memberList')!)).toEqual([
+      [1, existingMember],
+      [2, newMember],
+    ])
+  })
 })

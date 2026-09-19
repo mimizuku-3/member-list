@@ -10,8 +10,9 @@ describe('MemberList', () => {
       [1, { id: 1, name: '田中太郎', email: 'tanaka@example.com', points: 100 }],
       [2, { id: 2, name: '鈴木花子', email: 'suzuki@example.com', points: 200 }],
     ])
-    sessionStorage.setItem('memberList', JSON.stringify([...memberList]))
     const pinia = createPinia()
+    const membersStore = useMembersStore(pinia)
+    membersStore.memberList = memberList
     const wrapper = mount(MemberList, {
       global: {
         plugins: [pinia],
@@ -24,5 +25,17 @@ describe('MemberList', () => {
     expect(wrapper.text()).toContain('IDが1 田中太郎さん')
     expect(wrapper.text()).toContain('IDが2 鈴木花子さん')
     expect(wrapper.findAll('li')).toHaveLength(4)
+  })
+
+  it('会員情報がない場合は空状態を表示する', () => {
+    sessionStorage.clear()
+    const wrapper = mount(MemberList, {
+      global: {
+        plugins: [createPinia()],
+        stubs: { RouterLink: true },
+      },
+    })
+
+    expect(wrapper.text()).toContain('会員が存在しません。')
   })
 })
