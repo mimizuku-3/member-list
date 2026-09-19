@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { provide } from 'vue'
 import { RouterView } from 'vue-router'
 import { useMembersStore } from "@/stores/members";
 
 const membersStore = useMembersStore();
 membersStore.initList();
-
-provide('memberList', membersStore.memberList);
 </script>
 
 
