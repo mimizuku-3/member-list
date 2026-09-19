@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { inject } from 'vue';
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useMembersStore } from "@/stores/members";
