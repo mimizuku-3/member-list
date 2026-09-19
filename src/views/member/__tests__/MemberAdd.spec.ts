@@ -32,8 +32,11 @@ describe('MemberAdd', () => {
     expect(wrapper.find('form').exists()).toBe(true)
   })
 
-  it('送信後に会員を追加して会員一覧へ遷移する', async () => {
-    const memberList = new Map()
+  it('IDを自動採番して会員を追加し会員一覧へ遷移する', async () => {
+    const memberList = new Map([
+      [1, { id: 1, name: '田中太郎', email: 'tanaka@example.com', points: 100 }],
+      [2, { id: 2, name: '鈴木花子', email: 'suzuki@example.com', points: 200 }],
+    ])
     const wrapper = mount(MemberAdd, {
       global: {
         provide: {
@@ -45,10 +48,9 @@ describe('MemberAdd', () => {
       },
     })
 
-    await wrapper.find('input[type="number"]').setValue(3)
-    await wrapper.findAll('input')[1]!.setValue('山田次郎')
-    await wrapper.findAll('input')[2]!.setValue('yamada@example.com')
-    await wrapper.findAll('input')[3]!.setValue(300)
+    await wrapper.findAll('input')[0]!.setValue('山田次郎')
+    await wrapper.findAll('input')[1]!.setValue('yamada@example.com')
+    await wrapper.findAll('input')[2]!.setValue(300)
     await wrapper.find('textarea').setValue('新規会員')
     await wrapper.find('form').trigger('submit')
 
@@ -60,5 +62,21 @@ describe('MemberAdd', () => {
       note: '新規会員',
     })
     expect(pushMock).toHaveBeenCalledWith({ name: 'MemberList' })
+  })
+
+  it('ID入力欄を表示しない', () => {
+    const wrapper = mount(MemberAdd, {
+      global: {
+        provide: {
+          memberList: new Map(),
+        },
+        stubs: {
+          RouterLink: true,
+        },
+      },
+    })
+
+    expect(wrapper.find('dt').text()).not.toContain('ID')
+    expect(wrapper.find('input[type="number"]').exists()).toBe(true)
   })
 })

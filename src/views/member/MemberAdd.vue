@@ -15,7 +15,8 @@ const member: Member = reactive(
   }
 );
 const onAdd = (): void => {
-  console.log(member);
+  const nextId = memberList.size > 0 ? Math.max(...memberList.keys()) + 1 : 1;
+  member.id = nextId;
   memberList.set(member.id, member);
   router.push({ name: 'MemberList' });
 };
@@ -40,8 +41,6 @@ const onAdd = (): void => {
     <p>新しい会員情報を入力してください。</p>
     <form v-on:submit.prevent="onAdd">
       <dl>
-        <dt>ID</dt>
-        <dd><input type="number" v-model="member.id" required /></dd>
         <dt>名前</dt>
         <dd><input v-model="member.name" required /></dd>
         <dt>メール</dt>
