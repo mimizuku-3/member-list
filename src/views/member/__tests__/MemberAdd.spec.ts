@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia } from 'pinia'
+import { useMembersStore } from '@/stores/members'
 import MemberAdd from '../MemberAdd.vue'
 
 const { pushMock } = vi.hoisted(() => ({
@@ -17,11 +19,10 @@ vi.mock('vue-router', async () => {
 
 describe('MemberAdd', () => {
   it('会員登録フォームを表示する', () => {
+    const pinia = createPinia()
     const wrapper = mount(MemberAdd, {
       global: {
-        provide: {
-          memberList: new Map(),
-        },
+        plugins: [pinia],
         stubs: {
           RouterLink: true,
         },
@@ -33,15 +34,15 @@ describe('MemberAdd', () => {
   })
 
   it('IDを自動採番して会員を追加し会員一覧へ遷移する', async () => {
-    const memberList = new Map([
+    const pinia = createPinia()
+    const membersStore = useMembersStore(pinia)
+    membersStore.memberList = new Map([
       [1, { id: 1, name: '田中太郎', email: 'tanaka@example.com', points: 100 }],
       [2, { id: 2, name: '鈴木花子', email: 'suzuki@example.com', points: 200 }],
     ])
     const wrapper = mount(MemberAdd, {
       global: {
-        provide: {
-          memberList,
-        },
+        plugins: [pinia],
         stubs: {
           RouterLink: true,
         },
@@ -54,7 +55,7 @@ describe('MemberAdd', () => {
     await wrapper.find('textarea').setValue('新規会員')
     await wrapper.find('form').trigger('submit')
 
-    expect(memberList.get(3)).toEqual({
+    expect(membersStore.memberList.get(3)).toEqual({
       id: 3,
       name: '山田次郎',
       email: 'yamada@example.com',
@@ -65,11 +66,10 @@ describe('MemberAdd', () => {
   })
 
   it('ID入力欄を表示しない', () => {
+    const pinia = createPinia()
     const wrapper = mount(MemberAdd, {
       global: {
-        provide: {
-          memberList: new Map(),
-        },
+        plugins: [pinia],
         stubs: {
           RouterLink: true,
         },

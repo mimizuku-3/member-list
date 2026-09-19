@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 import { RouterView } from 'vue-router'
-import type { Member} from "@/interfaces";
+import { useMembersStore } from "@/stores/members";
 
-const memberList = new Map<number, Member>();
-memberList.set(1, {id: 1, name: "田中太郎", email: "tanaka@example.com", points: 100, note: "初回入会特典あり"});
-memberList.set(2, {id: 2, name: "鈴木花子", email: "suzuki@example.com", points: 200});
+const membersStore = useMembersStore();
+membersStore.initList();
 
-provide('memberList', memberList);
+provide('memberList', membersStore.memberList);
 </script>
 
 
 <template>
   <header>
-    <h1>Member List</h1>
+    <h1>Piniaサンプル</h1>
   </header>
   <main>
     <RouterView />

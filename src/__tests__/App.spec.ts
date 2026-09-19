@@ -1,6 +1,7 @@
 import { defineComponent, inject } from 'vue'
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia } from 'pinia'
 import App from '../App.vue'
 import type { Member } from '../interfaces'
 
@@ -16,13 +17,14 @@ describe('App', () => {
 
     const wrapper = mount(App, {
       global: {
+        plugins: [createPinia()],
         stubs: {
           RouterView: routeViewProbe,
         },
       },
     })
 
-    expect(wrapper.get('header h1').text()).toBe('Member List')
-    expect(wrapper.get('main').text()).toContain('田中太郎')
+    expect(wrapper.get('header h1').text()).toBe('Piniaサンプル')
+    expect(wrapper.get('main').text()).toContain('田中一郎')
   })
 })

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia } from 'pinia'
+import { useMembersStore } from '@/stores/members'
 import MemberDetail from '../MemberDetail.vue'
 
 const createMemberList = () => new Map([
@@ -20,10 +22,13 @@ const createMemberList = () => new Map([
 
 describe('MemberDetail', () => {
   it('選択した会員の情報を表示する', () => {
+    const pinia = createPinia()
+    const membersStore = useMembersStore(pinia)
+    membersStore.memberList = createMemberList()
     const wrapper = mount(MemberDetail, {
       props: { id: 1 },
       global: {
-        provide: { memberList: createMemberList() },
+        plugins: [pinia],
         stubs: { RouterLink: { template: '<a><slot /></a>' } },
       },
     })
@@ -35,10 +40,13 @@ describe('MemberDetail', () => {
   })
 
   it('備考がない会員にはプレースホルダーを表示する', () => {
+    const pinia = createPinia()
+    const membersStore = useMembersStore(pinia)
+    membersStore.memberList = createMemberList()
     const wrapper = mount(MemberDetail, {
       props: { id: 2 },
       global: {
-        provide: { memberList: createMemberList() },
+        plugins: [pinia],
         stubs: { RouterLink: true },
       },
     })

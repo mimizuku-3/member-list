@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia } from 'pinia'
+import { useMembersStore } from '@/stores/members'
 import MemberList from '../MemberList.vue'
 
 describe('MemberList', () => {
@@ -8,9 +10,12 @@ describe('MemberList', () => {
       [1, { id: 1, name: '田中太郎', email: 'tanaka@example.com', points: 100 }],
       [2, { id: 2, name: '鈴木花子', email: 'suzuki@example.com', points: 200 }],
     ])
+    const pinia = createPinia()
+    const membersStore = useMembersStore(pinia)
+    membersStore.memberList = memberList
     const wrapper = mount(MemberList, {
       global: {
-        provide: { memberList },
+        plugins: [pinia],
         stubs: { RouterLink: { template: '<a><slot /></a>' } },
       },
     })
