@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useMembersStore } from '@/stores/members';
+
+const membersStore = useMembersStore();
+membersStore.prepareMemberList();
+</script>
+
 <template>
   <header>
     <h1>Piniaサンプル</h1>
