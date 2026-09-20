@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import { useMembersStore } from "@/stores/members";
+import { useMembersStore } from '@/stores/members';
 
 const membersStore = useMembersStore();
-membersStore.initList();
+membersStore.prepareMemberList();
 </script>
-
 
 <template>
   <header>

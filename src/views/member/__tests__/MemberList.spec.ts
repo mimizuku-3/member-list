@@ -26,4 +26,16 @@ describe('MemberList', () => {
     expect(wrapper.text()).toContain('IDが2 鈴木花子さん')
     expect(wrapper.findAll('li')).toHaveLength(4)
   })
+
+  it('会員情報がない場合は空状態を表示する', () => {
+    sessionStorage.clear()
+    const wrapper = mount(MemberList, {
+      global: {
+        plugins: [createPinia()],
+        stubs: { RouterLink: true },
+      },
+    })
+
+    expect(wrapper.text()).toContain('会員が存在しません。')
+  })
 })

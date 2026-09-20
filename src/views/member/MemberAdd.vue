@@ -19,7 +19,7 @@ const member: Member = reactive(
 const onAdd = (): void => {
   const nextId = memberList.size > 0 ? Math.max(...memberList.keys()) + 1 : 1;
   member.id = nextId;
-  membersStore.addMember(member);
+  membersStore.insertMember(member);
   router.push({ name: 'MemberList' });
 };
 </script>
