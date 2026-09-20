@@ -23,6 +23,16 @@ describe('useMembersStore', () => {
     expect(store.getById(2)?.name).toBe('鈴木花子')
   })
 
+  it('壊れたセッションデータを削除して空の会員リストにする', () => {
+    const store = useMembersStore()
+    sessionStorage.setItem('memberList', '{invalid-json')
+
+    store.prepareMemberList()
+
+    expect(store.memberList.size).toBe(0)
+    expect(sessionStorage.getItem('memberList')).toBeNull()
+  })
+
   it('会員を追加してIDから取得できる', () => {
     const store = useMembersStore()
     const member = {

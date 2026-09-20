@@ -20,13 +20,17 @@ export const useMembersStore = defineStore('members', {
   },
   actions: {
     prepareMemberList(): void {
-      let memberList = new Map<number, Member>();
-      const memberListJSONstr = sessionStorage.getItem('memberList');
-      if (memberListJSONstr) {
-        const memberListJSON: [number, Member][] = JSON.parse(memberListJSONstr);
-        memberList = new Map<number, Member>(memberListJSON);
-      }
-      this.memberList = memberList;
+       let memberList = new Map<number, Member>();
+       const memberListJSONstr = sessionStorage.getItem('memberList');
+       if (memberListJSONstr) {
+       try {
+         const memberListJSON: [number, Member][] = JSON.parse(memberListJSONstr);
+         memberList = new Map<number, Member>(memberListJSON);
+       } catch {
+         sessionStorage.removeItem('memberList');
+       }
+       this.memberList = memberList;
+       }
     },
     insertMember(member: Member): void {
       this.memberList.set(member.id, member);
